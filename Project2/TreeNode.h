@@ -11,7 +11,9 @@ public:
 	{
 		TNname = "";
 		TNtitle = "";
-		TreeNode(TNname, TNtitle, TREENULLPTR, TREENULLPTR, TREENULLPTR);
+		TNpar = TREENULLPTR;
+		TNlc = TREENULLPTR;
+		TNrs = TREENULLPTR;
 	}
 
 	TreeNode(std::string name, std::string title, TREENODEPTR parent, TREENODEPTR lc, TREENODEPTR rs)
