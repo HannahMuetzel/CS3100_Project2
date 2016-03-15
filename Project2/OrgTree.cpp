@@ -7,8 +7,7 @@
 
 OrgTree::OrgTree()
 {
-	TreeNode tree = new TreeNode[size];
-	tree[0] = TREENULLPTR;		//set first and only node to null
+	tree = new TreeNode*[size];
 }
 
 
@@ -18,17 +17,46 @@ OrgTree::~OrgTree()
 }
 
 //TODO: resize tree if full and adding more crap to it
-void OrgTree::resize(TreeNode[] tnptr) {
-	size = size + 1;		//increase the size of the arr
-	TreeNode temp = new TreeNode[size];
+void OrgTree::resize(TreeNode*[] tnptr) {
+	//increase the size of the arr
+	size = size * 2;		
+	TreeNode* temp = new TreeNode*[size];
 	for (int i = 0; i < size; i++) {
 		temp[i] = tnptr[i];
 	}
 	delete[] tnptr;
 	tnptr = temp;
 }
+
 //TODO: OrgTree::setPointers(parent, lc, rs) to NULL
+void OrgTree::setPointers(TREENODEPTR node) {
+	tree[node].TNpar = TREENULLPTR;
+	tree[node].TNrs = TREENULLPTR;
+	tree[node].TNlc = TREENULLPTR;
+}
+
 //TODO: OrgTree::addRoot(title, name) - resize if tree is full
+void OrgTree::addRoot(string title, string name) {
+	if (root == TREENULLPTR) {
+		//if tree is full, resize (shouldn't get here because first node added)
+		if (size == capacity) {
+			resize(tree[]);
+		}
+		//set root's ptrs to null.
+		setPointers(root);
+		tree[capacity] = root;
+		tree[capacity].TNtitle = title;
+		tree[capacity].TNname = name;
+		root = tree[capacity];
+		capacity++;
+	}
+	//TODO: else: entire tree becomes subtree of new root
+	/* //if tree is full, resize
+		if (size == capacity) {
+			resize(tree[]);
+		}*/
+}
+
 //TODO: unsigned int OrgTree::getSize() - return # of employees
 //TODO: OrgTree::getRoot() - return array index of root of tree
 //TODO: OrgTree::leftmostChild(TREENODEPTR node) - return pointer to lc of node passed. if no children, return TREENULLPTR

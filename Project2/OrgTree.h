@@ -5,13 +5,19 @@
 
 class OrgTree
 {
+private:
+	unsigned int size = 1;
+	unsigned int capacity = 0;
+	TreeNode* tree;
+	TreeNode* root = TREENULLPTR;
+
 public:
 	OrgTree();
 	~OrgTree();
 
-	//TODO: prototype resize tree if full and adding more crap to it
-	void setPointers(parent, lc, rs);
-	void addRoot(title, name);
+	void resize(TreeNode*[]);
+	void setPointers(TREENODEPTR node);
+	void addRoot(string title, string name);
 	unsigned int getSize();
 	unsigned int getRoot();
 	unsigned int leftmostChild(TREENODEPTR node);
