@@ -7,8 +7,9 @@ int main()
 	TreeNode nub;
 	TreeNode nubsFriend("Nubbin 2", "Nubbin 1's Friend", TREENULLPTR, TREENULLPTR, TREENULLPTR);
 	
+	OrgTree cherryTree;
 	//TODO: test OrgTree::addRoot() & OrgTree::setPointers()
-	OrgTree::addRoot("test title", "test name");
+	cherryTree.addRoot("test title", "test name");
 	//TODO: test OrgTree::resize()
 	//OrgTree::addRoot(string "new title", string "new name");
 

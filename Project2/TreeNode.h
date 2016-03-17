@@ -29,6 +29,10 @@ public:
 	{
 	}
 
+	void setPtrs(TREENODEPTR par, TREENODEPTR lc, TREENODEPTR rs) {
+
+	};
+
 	std::string TNname;
 	std::string TNtitle;
 	TREENODEPTR TNpar;
