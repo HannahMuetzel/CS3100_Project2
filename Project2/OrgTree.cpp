@@ -40,24 +40,8 @@ void OrgTree::setPtrs(TREENODEPTR node, TREENODEPTR par, TREENODEPTR lc, TREENOD
 
 //OrgTree::addRoot(title, name) - resize if tree is full
 void OrgTree::addRoot(std::string title, std::string name) {
-	if (root == TREENULLPTR) {
-		//if tree is full, resize
-		if (size == capacity) {
-			resize(tree);
-		}
-		//set root's ptrs to null.
-		tree[capacity].setPtrs(TREENULLPTR, TREENULLPTR, TREENULLPTR);
-		tree[capacity] = root;
-		tree[capacity].TNtitle = title;
-		tree[capacity].TNname = name;
-		root = tree[capacity];
-		capacity++;
-	}
-	//TODO: else: entire tree becomes subtree of new root
-	/* //if tree is full, resize
-		if (size == capacity) {
-			resize(tree[]);
-		}*/
+	//just hire a guy. if he's a root, cool.
+	hire(TREENULLPTR, title, name);
 }
 
 //TODO: unsigned int OrgTree::getSize() - return # of employees
@@ -101,6 +85,7 @@ TREENODEPTR OrgTree::find(std::string title) {
 //void OrgTree::hire(TREENODEPTR, title, name) hire name with title title. 
 	//make TREENODEPTR their parent. must also change rs of rightmost child of TREENODEPTR's kids
 void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
+	//omg make da node yo
 	TreeNode newNode(name, title, TREENULLPTR, TREENULLPTR, TREENULLPTR); //make a new employee node
 	TREENODEPTR ptr = size;
 	//set its pointers to the parent pointer & null pointers for lc & rs
