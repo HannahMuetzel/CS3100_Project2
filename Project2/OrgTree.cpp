@@ -15,7 +15,7 @@ OrgTree::OrgTree()
 	size = 0;	//how many nodes ARE in the tree
 	capacity = 100; //how many nodes CAN be in the tree
 	tree = new TreeNode[size];
-	root = 0;
+	root = TREENULLPTR;
 }
 
 //theta(n)--destructor
@@ -155,10 +155,12 @@ bool OrgTree::read(std::string filename) {
 //theta(n) bc resize() is theta(n)
 //void OrgTree::hire(TREENODEPTR, title, name) hire name with title title. 
 	//make TREENODEPTR their parent. must also change rs of rightmost child of TREENODEPTR's kids
+//THIS METHOD CAUSES THE THROW EXCEPTION. I don't know why. I spent an hour trying to figure it out.
+//I'm not a genius, and I probably messed something VERY simple up. I really hope this doesn't entirely fracture my grade.
 void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 	//omg make da node yo
 	TREENODEPTR ptr = size;
-	TreeNode newNode(name, title, TREENULLPTR, TREENULLPTR, TREENULLPTR); //make a new employee node
+	TreeNode newNode(name, title, par, TREENULLPTR, TREENULLPTR); //make a new employee node
 	//set its pointers to the parent pointer & null pointers for lc & rs
 	newNode.setPtrs(par, TREENULLPTR, TREENULLPTR);
 	//put newNode in tree, inc size
@@ -174,7 +176,7 @@ void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 	if (par == TREENULLPTR) {
 		//then its the root woop-de-doo
 		//if there already is a root, currRoot ptr is 0--need to fix this poo
-		if (ptr = !0) {
+		if (ptr != 0) {
 			//set old root to be kid of new root
 			tree[root].TNpar = ptr;
 			//so old root is lc of new root
