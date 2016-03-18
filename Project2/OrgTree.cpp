@@ -91,6 +91,22 @@ TREENODEPTR OrgTree::find(std::string title) {
 }
 
 //TODO: void OrgTree::printSubTree(TREENODEPTR subTreeRoot) - prints subtree starting at subTreeRoot (use indentation indicated)
+void OrgTree::printSubTree(TREENODEPTR subTreeRoot) {
+	//start with root
+	//next line, indent & print root.lc (which is now called next)
+	//if next.lc == null, print ) and then print (next.lc).rs
+	//else, print next.lc, then go back up to doing this again and again.
+	//repeat indent again, etc etc, for as deep as it needs to go
+	//print (next.lc).rs until ((next.lc).rs).rs == null
+
+	/*next = tree[subTreeRoot].lc;
+		if (next == TREENULLPTR) {
+			print ")";
+		} else {
+			//do the above
+		}
+	*/
+}
 //TODO: bool OrgTree::read(filename) - reads orgTree from file. return true if file found & read successfully, else return false.
 //TODO: void OrgTree::write(filename) write to orgTree file using same format in read()
 
@@ -184,10 +200,10 @@ bool OrgTree::fire(std::string title) {
 	else {
 		//go thru the tree
 		for (int i = 0; i < size; i++) {
-			
+
 			if (tree[i].TNtitle == title) {
 				//we found him. eliminate.
-				
+
 				//get prevKid to be the rightest sib of the lc of the parent of where we are now
 				TREENODEPTR prevKid = OrgTree::theRIGHTEST(tree[tree[i].TNpar].TNlc, i);
 				tree[prevKid].TNrs = tree[i].TNrs;
@@ -200,7 +216,7 @@ bool OrgTree::fire(std::string title) {
 				while (tree[i].TNlc != TREENULLPTR) {
 					//TREENODEPTR toFiresParsRightChild = OrgTree::theRIGHTEST(tree[tree[i].TNpar].TNlc, TREENULLPTR);
 					//tree[toFiresParsRightChild].TNrs = tree[i].TNlc;
-					OrgTree::dudebroKidSwap(i, tree[i].TNpar);
+					OrgTree::dudebroKidSwap(tree[i].TNrs, tree[i].TNpar);
 				}
 
 				//reduce size because we fired mr. mcidiot
@@ -209,17 +225,17 @@ bool OrgTree::fire(std::string title) {
 			}
 		}
 	}
+}
 
-	TREENODEPTR OrgTree::dudebroKidSwap(TREENODEPTR dudebro, TREENODEPTR dudebroPar) {
-		if (tree[dudebro].TNlc == TREENULLPTR) {
-			return TREENULLPTR;
-		}
-		else {
-			tree[tree[dudebro].TNlc].TNpar = tree[dudebro].TNpar;
-			TREENODEPTR prevKid = OrgTree::theRIGHTEST(tree[tree[dudebro].TNpar].TNlc, dudebro);
-			tree[prevKid].TNrs = tree[dudebro].TNrs;
-			dudebroKidSwap(dudebro, dudebroPar);
-		}
+//recursive method to change fired man (dudebro) kids' parent pionter.
+//theta(1)
+void OrgTree::dudebroKidSwap(TREENODEPTR dudebro, TREENODEPTR newPar) {
+
+	if (tree[dudebro].TNlc == TREENULLPTR) {
+		return;
 	}
-
+	else {
+		tree[dudebro].TNpar = newPar;		
+		dudebroKidSwap(theRIGHTEST(tree[tree[dudebro].TNpar].TNlc, TREENULLPTR), newPar);	
+	}	
 }
