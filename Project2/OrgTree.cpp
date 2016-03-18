@@ -124,7 +124,7 @@ void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 		//crap that means recursion doesn't it.
 		//brb writing recursive method for finding a kid.
 		//k back.
-		furthestRChild == theRIGHTEST(tree[par].TNlc, TREENULLPTR); //if right sib == null then no right sib. it's rightest kid of tree[par]
+		furthestRChild == OrgTree::theRIGHTEST(tree[par].TNlc, TREENULLPTR); //if right sib == null then no right sib. it's rightest kid of tree[par]
 		//make furthestRChild's right sib the new node.
 		tree[furthestRChild].TNrs = ptr;
 	} 
@@ -133,19 +133,63 @@ void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 	//omg i think i am
 	//time to get rid of it.
 	//aka backwards hire--except more complicated :')
+	//why did i pick this major tbh
 }
 
 //world's crappiest method to find if the right sib is the passed node
-TREENODEPTR theRIGHTEST(TREENODEPTR currNode, TREENODEPTR brotherNode) {
+TREENODEPTR OrgTree::theRIGHTEST(TREENODEPTR currNode, TREENODEPTR brotherNode) {
 	//tfw "tree" isn't defined except that it is. you know. that feel. that feel, man.
 	if (tree[currNode].TNrs == brotherNode) {
 		return currNode;
 	} //currNode's right sibling = brotherNode! stop.
 	else {
 		//gotta call it again, using currNode's right sib so just...do that?
-		theRIGHTEST(tree[currNode].TNrs, brotherNode);
+		OrgTree::theRIGHTEST(tree[currNode].TNrs, brotherNode);
 		//do dis til u find good good.
 	}
 }
 
-//TODO: bool OrgTree::fire(title) - fire employee with title title. if title is found and employee fired, return true. if no title match found or title is that of rootNode, return false and don't delete any nodes.
+//TODO: bool OrgTree::fire(title) - fire employee with title title. 
+	//if title is found and employee fired, return true. 
+	//if no title match found or title is that of rootNode, return false and don't delete any nodes.
+bool OrgTree::fire(std::string title) {
+	//holy crap don't forget to return a boolean because you probably will
+	//i'm not even removing these comments anymore #sorrynotsorry
+
+	//find(title)
+	//if find(title) returns TREENULLPTR then mr. employee isn't really hired, so return false, delete nothing.
+	//is he real??! cool. kill--errrr..."fire" him.
+	//fix the pointers for everyone else. aka: hard part of fire.
+
+	TREENODEPTR toFire = find(title);
+	if (toFire == TREENULLPTR || tree[root].TNtitle == title) {
+		return false;
+	}
+	//else, he's part of the company and he's got to goooo
+	else {
+		//go thru the tree
+		for (int i = 0; i < size; i++) {
+			
+			if (tree[i].TNtitle == title) {
+				//we found him. eliminate.
+				
+				//get prevKid to be the rightest sib of the lc of the parent of where we are now
+				TREENODEPTR prevKid = OrgTree::theRIGHTEST(tree[tree[i].TNpar].TNlc, i);
+				tree[prevKid].TNrs = tree[i].TNrs;
+
+				//set the lc of mr. employee's parent to mr. employee's lc
+				tree[tree[i].TNpar].TNlc = tree[i].TNlc;
+
+				//set the freakin' children of who mr. employee had to the dude above him.
+				while (tree[i].TNlc != TREENULLPTR) {
+					TREENODEPTR toFiresParsRightChild = OrgTree::theRIGHTEST(tree[tree[i].TNpar].TNlc, TREENULLPTR);
+					tree[toFiresParsRightChild].TNrs = tree[i].TNlc;
+				}
+				//reduce size because we fired mr. mcidiot
+				size--;
+				return true;
+			}
+		}
+	}
+
+}
