@@ -31,4 +31,5 @@ public:
 	void hire(TREENODEPTR parent, std::string name, std::string title);
 	bool fire(std::string title);
 	TREENODEPTR theRIGHTEST(TREENODEPTR currNode, TREENODEPTR brotherNode); //omg recursion wowZERS!!!
+	TREENODEPTR OrgTree::dudebroKidSwap(TREENODEPTR dudebro, TREENODEPTR dudebroPar);
 };
