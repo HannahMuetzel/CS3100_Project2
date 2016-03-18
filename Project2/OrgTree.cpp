@@ -3,6 +3,9 @@
 #include <string>
 #include "OrgTree.h"
 #include "TreeNode.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 //Creates OrgTree, which is a general tree. One node holds 5 pointers, so each node needs space for 5 pointers and
 //an int (its TREENODEPTR index).
@@ -108,6 +111,45 @@ void OrgTree::printSubTree(TREENODEPTR subTreeRoot) {
 	*/
 }
 //TODO: bool OrgTree::read(filename) - reads orgTree from file. return true if file found & read successfully, else return false.
+bool OrgTree::read(std::string filename) {
+	//reads orgTree from file. return true if found & read successfully, else return false.
+	std::ifstream in(filename);
+	std::string data;
+	//is the reading a success? idk, lets return a bool that says if it is, aptly named: success.
+	bool success = false;
+	TREENODEPTR tPar = 0;
+	if (!in) {
+		std::cerr << "Open file failed. Just like my plans for the future." << std::endl;
+		return success;
+	}
+
+	while (std::getline(in, data)) {
+		std::string title, name;
+		std::istringstream stub(data);
+		getline(stub, title, ',');
+		getline(stub, name);
+
+		if (title == ")") {
+			tPar = tree[tPar].TNpar;
+		}
+		else {
+			if (size == 0) {
+				//if nothing in the tree, then it's a root, add it as such.
+				addRoot(title, name);
+			}
+			else {
+				//if there is stuffs in the tree, it isn't a root, so just hire 'em, Jimbo.
+				hire(tPar, title, name);
+				//next parent is the current size minus 1
+				tPar = size - 1;
+			}
+		}
+	}
+
+	success = true;
+	return success;
+}
+
 //TODO: void OrgTree::write(filename) write to orgTree file using same format in read()
 
 //theta(n) bc resize() is theta(n)
@@ -115,8 +157,8 @@ void OrgTree::printSubTree(TREENODEPTR subTreeRoot) {
 	//make TREENODEPTR their parent. must also change rs of rightmost child of TREENODEPTR's kids
 void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 	//omg make da node yo
-	TreeNode newNode(name, title, TREENULLPTR, TREENULLPTR, TREENULLPTR); //make a new employee node
 	TREENODEPTR ptr = size;
+	TreeNode newNode(name, title, TREENULLPTR, TREENULLPTR, TREENULLPTR); //make a new employee node
 	//set its pointers to the parent pointer & null pointers for lc & rs
 	newNode.setPtrs(par, TREENULLPTR, TREENULLPTR);
 	//put newNode in tree, inc size
