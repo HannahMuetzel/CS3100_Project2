@@ -137,6 +137,7 @@ void OrgTree::hire(TREENODEPTR par, std::string name, std::string title) {
 
 //world's crappiest method to find if the right sib is the passed node
 TREENODEPTR theRIGHTEST(TREENODEPTR currNode, TREENODEPTR brotherNode) {
+	//tfw "tree" isn't defined except that it is. you know. that feel. that feel, man.
 	if (tree[currNode].TNrs == brotherNode) {
 		return currNode;
 	} //currNode's right sibling = brotherNode! stop.
